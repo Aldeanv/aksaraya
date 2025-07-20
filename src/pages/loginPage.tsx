@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { login as loginService } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate(user.role === "admin" ? "/dashboard" : "/");
     }
   }, [user, navigate]);
 
@@ -24,9 +25,14 @@ export default function LoginPage() {
     try {
       const res = await loginService({ email, password });
       login(res.user, res.token);
-      navigate("/");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Login gagal");
+
+      navigate(res.user.role === "admin" ? "/dashboard" : "/");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "Login gagal");
+      } else {
+        setError("Login gagal karena kesalahan tak terduga.");
+      }
     } finally {
       setLoading(false);
     }
