@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchCatalogs } from "../../services/catalogService";
 import { useAuth } from "../../context/AuthContext";
+import Navbar from "../../components/Navbar";
 
 interface Catalog {
   id: number;
@@ -39,6 +40,7 @@ export default function Home() {
 
   return (
     <>
+      <Navbar />
       <h1 className="font-extrabold text-4xl mb-4">Catalog Buku Aksaraya</h1>
 
       {user && (
