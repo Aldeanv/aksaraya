@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchCatalogs } from "../../services/catalogService";
+import { useAuth } from "../../context/AuthContext";
 
 interface Catalog {
   id: number;
@@ -7,15 +8,16 @@ interface Catalog {
   title: string;
   author: string;
   genre: string;
-  year: number;  
+  year: number;
   synopsis: string;
   publisher: string;
   type: string;
 }
 
-function Home() {
+export default function Home() {
   const [catalogs, setCatalogs] = useState<Catalog[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const loadCatalogs = async () => {
@@ -28,7 +30,6 @@ function Home() {
         setLoading(false);
       }
     };
-
     loadCatalogs();
   }, []);
 
@@ -36,7 +37,22 @@ function Home() {
 
   return (
     <>
-      <h1 className="font-extrabold text-4xl">catalog buku aksaraya</h1>
+      <h1 className="font-extrabold text-4xl mb-4">Catalog Buku Aksaraya</h1>
+
+      {user && (
+        <div className="mb-6 p-4 border rounded bg-gray-50">
+          <h2 className="text-lg font-semibold">{user.name}</h2>
+          <p>Email: {user.email}</p>
+          <p>Role: {user.role}</p>
+
+          <button
+            onClick={logout}
+            className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+          >
+            Logout
+          </button>
+        </div>
+      )}
 
       {catalogs.length === 0 ? (
         <p className="text-center">No catalogs available.</p>
@@ -63,5 +79,3 @@ function Home() {
     </>
   );
 }
-
-export default Home;
