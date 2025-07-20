@@ -14,6 +14,8 @@ interface Catalog {
   type: string;
 }
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 export default function Home() {
   const [catalogs, setCatalogs] = useState<Catalog[]>([]);
   const [loading, setLoading] = useState(true);
@@ -61,7 +63,7 @@ export default function Home() {
           {catalogs.map((catalog) => (
             <div key={catalog.id} className="border p-4 rounded shadow">
               <img
-                src={catalog.coverUrl}
+                src={`${BASE_URL}${catalog.coverUrl}`}
                 alt={catalog.title}
                 className="w-full h-40 object-cover mb-2 rounded"
               />
