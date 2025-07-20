@@ -19,7 +19,7 @@ export default function Navbar() {
   return (
     <nav className="bg-white shadow-sm px-6 py-4 flex justify-between items-center border-b border-gray-100">
       <div className="flex items-center gap-8">
-        <h1 className="text-xl font-semibold text-gray-800">BookCatalog Admin</h1>
+        <h1 className="text-xl font-semibold text-gray-800">BookCatalog</h1>
         <Link 
           to="/" 
           className="text-gray-600 hover:text-orange-500 transition-colors text-sm"
