@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchCatalogs } from "../../services/catalogService";
+import { fetchAllCatalogs } from "../../services/catalogService";
 import api from "../../services/api";
 import CreateCatalog from "../../components/createCatalog";
 import UpdateCatalog from "../../components/updateCatalog";
@@ -31,7 +31,7 @@ export default function DashboardAdmin() {
   const loadCatalogs = async () => {
     setLoading(true);
     try {
-      const data = await fetchCatalogs();
+      const data = await fetchAllCatalogs();
       setCatalogs(data);
     } catch (err) {
       console.error("Gagal memuat katalog", err);
