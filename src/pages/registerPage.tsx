@@ -1,20 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import {
   register as registerService,
   login as loginService,
 } from "../services/authService";
-import { useAuth } from "../context/AuthContext";
 import backgroundImg from "../assets/Background.svg";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { user, login } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // Redirect jika user sudah login
+  useEffect(() => {
+    if (user) {
+      navigate(user.role === "admin" ? "/dashboard" : "/");
+    }
+  }, [user, navigate]);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,20 +30,14 @@ export default function RegisterPage() {
 
     try {
       await registerService({ name, email, password });
-
       const res = await loginService({ email, password });
       login(res.user, res.token);
       navigate("/");
-    } catch (err: unknown) {
+    } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
-      } else if (typeof err === "object" && err !== null && "response" in err) {
-        const axiosErr = err as { response?: { data?: { message?: string } } };
-        setError(
-          axiosErr.response?.data?.message || "Registrasi gagal, coba lagi."
-        );
       } else {
-        setError("Terjadi kesalahan yang tidak diketahui.");
+        setError("Terjadi kesalahan saat registrasi.");
       }
     } finally {
       setLoading(false);
