@@ -1,4 +1,17 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
+
+interface WishlistItem {
+  id: number;
+  coverUrl: string;
+  title: string;
+  author: string;
+}
 
 interface User {
   id: number;
@@ -7,7 +20,7 @@ interface User {
   role: string;
   NIK?: string;
   phone?: string;
-  createdAt: string;
+  wishlists?: WishlistItem[];
 }
 
 interface AuthContextProps {
