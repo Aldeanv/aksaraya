@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { login as loginService } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import axios from "axios";
 import backgroundImg from "../assets/Background.svg";
 
 export default function LoginPage() {
@@ -28,14 +27,11 @@ export default function LoginPage() {
       const res = await loginService({ email, password });
       login(res.user, res.token);
       navigate(res.user.role === "admin" ? "/dashboard" : "/");
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        setError(
-          err.response?.data?.message ||
-            "Login gagal. Silakan periksa email dan password Anda."
-        );
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
       } else {
-        setError("Terjadi kesalahan. Silakan coba lagi.");
+        setError("Terjadi kesalahan saat login. Silakan coba lagi.");
       }
     } finally {
       setLoading(false);

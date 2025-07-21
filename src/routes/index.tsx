@@ -5,6 +5,7 @@ import Dashboard from "../pages/admin/dashboard";
 import ProtectedRoute from "../components/ProtectedRoute";
 import CatalogDetail from "../pages/client/detailPage";
 import ProfilePage from "../pages/client/profilePage";
+import RegisterPage from "../pages/registerPage";
 
 export default function AppRoutes() {
   return (
@@ -12,6 +13,7 @@ export default function AppRoutes() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route
           path="/dashboard"
           element={
