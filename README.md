@@ -5,6 +5,7 @@
 ![Tampilan Aksaraya](public/Tampilan%20aksaraya.jpg)
 
 - Menelusuri koleksi buku yang tersedia.
+- Menambahkan buku kedalam wishlist.
 - Melihat detail buku seperti:
   - **Judul Buku**
   - **Sinopsis**
