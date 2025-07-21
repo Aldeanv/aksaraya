@@ -33,6 +33,8 @@ Admin memiliki fitur untuk menambahkan, mengedit, dan menghapus katalog buku.
 - **Backend**: Node.js, Express.js
 - **Database**: PostgreSQL (Prisma ORM)
 - **Validasi**: Zod
+- **Autentikasi**: JWT
+- **hashing password**: bcryptjs
 - **File Upload**: Multer
 
 ---
@@ -53,6 +55,10 @@ Admin memiliki fitur untuk menambahkan, mengedit, dan menghapus katalog buku.
    npm install
    ```
 3. Buat file .env dan isi konfigurasi database.
+   ```bash
+   DATABASE_URL=postgresql://<username>:<password>@localhost:5433/<database_name>
+   JWT_SECRET=your_secret_key
+   ```
 4. Jalankan migrasi Prisma:
    ```bash
    npx prisma migrate dev
@@ -61,6 +67,9 @@ Admin memiliki fitur untuk menambahkan, mengedit, dan menghapus katalog buku.
    ```bash
    npm run seed
    ```
+   Akun admin :
+   - email : admin@test.com
+   - password : admin123
 6. Jalankan server:
    ```bash
    node src/index.js
