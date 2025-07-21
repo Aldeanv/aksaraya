@@ -64,7 +64,7 @@ export default function DashboardAdmin() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white p-4 md:p-8">
+      <div className="min-h-screen p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8 flex flex-col gap-6">
             <div>
@@ -159,25 +159,25 @@ export default function DashboardAdmin() {
                               }
                             />
                             <div className="ml-4">
-                              <div className="text-base font-medium text-orange-900">
+                              <div className="text-base font-medium">
                                 {cat.title}
                               </div>
-                              <div className="text-sm text-orange-600">
+                              <div className="text-sm">
                                 {cat.publisher}
                               </div>
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-5 text-orange-800">
+                        <td className="px-6 py-5">
                           {cat.author}
                         </td>
-                        <td className="px-6 py-5 text-orange-700">
+                        <td className="px-6 py-5">
                           {cat.genre}
                         </td>
-                        <td className="px-6 py-5 text-orange-700">
+                        <td className="px-6 py-5">
                           {cat.year}
                         </td>
-                        <td className="px-6 py-5 text-orange-700">
+                        <td className="px-6 py-5">
                           {truncateSynopsis(cat.synopsis, 25)}
                         </td>
                         <td className="px-6 py-5 text-right">
