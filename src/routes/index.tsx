@@ -3,6 +3,7 @@ import HomePage from "../pages/client/home";
 import LoginPage from "../pages/loginPage";
 import Dashboard from "../pages/admin/dashboard";
 import ProtectedRoute from "../components/ProtectedRoute";
+import CatalogDetail from "../pages/client/detailPage";
 
 export default function AppRoutes() {
   return (
@@ -18,6 +19,7 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
+        <Route path="/catalogs/:id" element={<CatalogDetail />} />
       </Routes>
     </BrowserRouter>
   );

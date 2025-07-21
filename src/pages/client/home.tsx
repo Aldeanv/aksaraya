@@ -75,8 +75,18 @@ export default function Home() {
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className="flex items-center space-x-2 p-2 text-gray-600 hover:text-orange-600"
                 >
-                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  <svg
+                    className="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
                   </svg>
                   <span className="text-sm font-medium">{user.name}</span>
                 </button>
@@ -149,12 +159,27 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-900 line-clamp-2">{catalog.title}</h3>
+                  <h3 className="font-medium text-gray-900 line-clamp-2">
+                    {catalog.title}
+                  </h3>
                   <p className="text-sm text-gray-500 mt-1">{catalog.author}</p>
-                  <button className="mt-2 text-sm text-orange-600 hover:text-orange-800 font-medium flex items-center">
-                    Lihat detail
-                    <svg className="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <button
+                    onClick={() => navigate(`/catalogs/${catalog.id}`)}
+                    className="mt-2 text-sm text-orange-600 hover:text-orange-800 font-medium flex items-center"
+                  >
+                    Lihat Detail
+                    <svg
+                      className="ml-1 h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
                     </svg>
                   </button>
                 </div>
