@@ -27,9 +27,13 @@ interface AuthContextProps {
   user: User | null;
   login: (user: User, token: string) => void;
   logout: () => void;
+  refreshUser: () => Promise<User | null>;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -41,9 +45,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  // Menyimpan user ke localStorage setiap kali state user berubah
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [user]);
+
   const login = (userData: User, token: string) => {
     localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
   };
 
@@ -53,8 +65,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
+  const refreshUser = async (): Promise<User | null> => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+
+    try {
+      const response = await fetch(`${BASE_URL}/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) throw new Error("Failed to refresh user data");
+
+      const data = await response.json();
+      setUser(data.user);
+      return data.user;
+    } catch (error) {
+      console.error("Error refreshing user:", error);
+      return null;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, refreshUser, setUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

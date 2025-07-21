@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 interface Catalog {
   id: number;
@@ -18,9 +19,12 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 export default function CatalogDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { user, setUser } = useAuth();
   const [catalog, setCatalog] = useState<Catalog | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("details");
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  const [wishlistLoading, setWishlistLoading] = useState(false);
 
   useEffect(() => {
     const fetchCatalog = async () => {
@@ -29,12 +33,7 @@ export default function CatalogDetail() {
         const response = await fetch(`${BASE_URL}/catalogs/${id}`);
         if (!response.ok) throw new Error("Catalog not found");
         const data = await response.json();
-        setCatalog({
-          ...data,
-          isbn: "978-3-16-148410-0",
-          pages: Math.floor(Math.random() * 200) + 200,
-          language: "Indonesia",
-        });
+        setCatalog(data);
       } catch (err) {
         console.error("Failed to fetch catalog", err);
         navigate("/");
@@ -43,8 +42,50 @@ export default function CatalogDetail() {
       }
     };
 
-    if (id) fetchCatalog();
+    fetchCatalog();
   }, [id, navigate]);
+
+  useEffect(() => {
+    if (user?.wishlists && catalog) {
+      const exists = user.wishlists.some((item) => item.id === catalog.id);
+      setIsInWishlist(exists);
+    }
+  }, [user, catalog]);
+
+  const toggleWishlist = async () => {
+    if (!user || !catalog) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      setWishlistLoading(true);
+      const method = isInWishlist ? "DELETE" : "POST";
+      const response = await fetch(`${BASE_URL}/wishlists/${catalog.id}`, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (!response.ok) throw new Error("Failed to update wishlist");
+
+      setIsInWishlist(!isInWishlist);
+      setUser((prev) => {
+        if (!prev) return prev;
+        const updatedWishlists = isInWishlist
+          ? prev.wishlists?.filter((w) => w.id !== catalog.id)
+          : [...(prev.wishlists ?? []), catalog];
+
+        return { ...prev, wishlists: updatedWishlists };
+      });
+    } catch (err) {
+      console.error("Error updating wishlist:", err);
+    } finally {
+      setWishlistLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -146,21 +187,20 @@ export default function CatalogDetail() {
               </div>
 
               <div className="mt-6 w-full">
-                <button className="w-full py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-medium transition-all shadow-md hover:shadow-lg flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 mr-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                    />
-                  </svg>
-                  Tambahkan ke whistlist
+                <button
+                  onClick={toggleWishlist}
+                  disabled={wishlistLoading}
+                  className={`py-2 px-4 rounded ${
+                    isInWishlist
+                      ? "bg-gray-200 text-orange-600"
+                      : "bg-orange-600 text-white"
+                  }`}
+                >
+                  {wishlistLoading
+                    ? "Loading..."
+                    : isInWishlist
+                    ? "Hapus dari wishlist"
+                    : "Tambah ke wishlist"}
                 </button>
               </div>
             </div>
