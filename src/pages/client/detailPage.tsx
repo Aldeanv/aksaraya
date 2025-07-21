@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { Catalog } from "../../types";
+import Navbar from "../../components/Navbar";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -139,146 +140,131 @@ export default function CatalogDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center text-orange-600 hover:text-orange-800 mb-8 transition-all group"
-        >
-          <svg
-            className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            />
-          </svg>
-          Kembali
-        </button>
+    <>
+    <Navbar />
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+            <div className="flex flex-col lg:flex-row">
+              <div className="lg:w-1/3 xl:w-1/4 p-6 lg:p-8 flex flex-col items-center">
+                <div className="relative w-full aspect-[2/3] rounded-2xl overflow-hidden shadow-lg">
+                  <img
+                    src={`${BASE_URL}${catalog.coverUrl}`}
+                    alt={catalog.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium shadow-sm">
+                    {catalog.type}
+                  </div>
+                </div>
 
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
-          <div className="flex flex-col lg:flex-row">
-            <div className="lg:w-1/3 xl:w-1/4 p-6 lg:p-8 flex flex-col items-center">
-              <div className="relative w-full aspect-[2/3] rounded-2xl overflow-hidden shadow-lg">
-                <img
-                  src={`${BASE_URL}${catalog.coverUrl}`}
-                  alt={catalog.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium shadow-sm">
-                  {catalog.type}
+                <div className="mt-6 w-full">
+                  <button
+                    onClick={toggleWishlist}
+                    disabled={wishlistLoading}
+                    className={`py-2 px-4 rounded ${
+                      isInWishlist
+                        ? "bg-gray-200 text-orange-600"
+                        : "bg-orange-600 text-white"
+                    }`}
+                  >
+                    {wishlistLoading
+                      ? "Loading..."
+                      : isInWishlist
+                      ? "Hapus dari wishlist"
+                      : "Tambah ke wishlist"}
+                  </button>
                 </div>
               </div>
 
-              <div className="mt-6 w-full">
-                <button
-                  onClick={toggleWishlist}
-                  disabled={wishlistLoading}
-                  className={`py-2 px-4 rounded ${
-                    isInWishlist
-                      ? "bg-gray-200 text-orange-600"
-                      : "bg-orange-600 text-white"
-                  }`}
-                >
-                  {wishlistLoading
-                    ? "Loading..."
-                    : isInWishlist
-                    ? "Hapus dari wishlist"
-                    : "Tambah ke wishlist"}
-                </button>
-              </div>
-            </div>
+              <div className="lg:w-2/3 xl:w-3/4 p-6 lg:p-8">
+                <div className="border-b border-gray-200 pb-6 mb-6">
+                  <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+                    {catalog.title}
+                  </h1>
+                  <p className="text-xl text-orange-600 font-medium">
+                    Penulis {catalog.author}
+                  </p>
+                </div>
 
-            <div className="lg:w-2/3 xl:w-3/4 p-6 lg:p-8">
-              <div className="border-b border-gray-200 pb-6 mb-6">
-                <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-                  {catalog.title}
-                </h1>
-                <p className="text-xl text-orange-600 font-medium">
-                  Penulis {catalog.author}
-                </p>
-              </div>
+                <div className="border-b border-gray-200 mb-6">
+                  <nav className="-mb-px flex space-x-8">
+                    <button
+                      onClick={() => setActiveTab("details")}
+                      className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
+                        activeTab === "details"
+                          ? "border-orange-500 text-orange-600"
+                          : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      }`}
+                    >
+                      Detail Buku
+                    </button>
+                    <button
+                      onClick={() => setActiveTab("synopsis")}
+                      className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
+                        activeTab === "synopsis"
+                          ? "border-orange-500 text-orange-600"
+                          : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      }`}
+                    >
+                      Sinopsis
+                    </button>
+                  </nav>
+                </div>
 
-              <div className="border-b border-gray-200 mb-6">
-                <nav className="-mb-px flex space-x-8">
-                  <button
-                    onClick={() => setActiveTab("details")}
-                    className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
-                      activeTab === "details"
-                        ? "border-orange-500 text-orange-600"
-                        : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                    }`}
-                  >
-                    Detail Buku
-                  </button>
-                  <button
-                    onClick={() => setActiveTab("synopsis")}
-                    className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
-                      activeTab === "synopsis"
-                        ? "border-orange-500 text-orange-600"
-                        : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                    }`}
-                  >
-                    Sinopsis
-                  </button>
-                </nav>
-              </div>
-
-              <div className="min-h-[300px]">
-                {activeTab === "details" && (
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500 mb-3">
-                      DETAIL PUBLIKASI
-                    </h3>
-                    <ul className="space-y-3">
-                      <li className="flex justify-between">
-                        <span className="text-gray-600">Penerbit</span>
-                        <span className="text-gray-900 font-medium">
-                          {catalog.publisher}
-                        </span>
-                      </li>
-                      <li className="flex justify-between">
-                        <span className="text-gray-600">Tahun Terbit</span>
-                        <span className="text-gray-900 font-medium">
-                          {catalog.year}
-                        </span>
-                      </li>
-                      <li className="flex justify-between">
-                        <span className="text-gray-600">Tipe</span>
-                        <span className="text-gray-900 font-medium">
-                          {catalog.type}
-                        </span>
-                      </li>
-                      <li className="flex justify-between">
-                        <span className="text-gray-600">Genre</span>
-                        <span className="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
-                          {catalog.genre}
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                )}
-
-                {activeTab === "synopsis" && (
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500 mb-3">
-                      Deskripsi
-                    </h3>
-                    <div className="prose max-w-none text-gray-700">
-                      <p className="whitespace-pre-line">{catalog.synopsis}</p>
+                <div className="min-h-[300px]">
+                  {activeTab === "details" && (
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 mb-3">
+                        DETAIL PUBLIKASI
+                      </h3>
+                      <ul className="space-y-3">
+                        <li className="flex justify-between">
+                          <span className="text-gray-600">Penerbit</span>
+                          <span className="text-gray-900 font-medium">
+                            {catalog.publisher}
+                          </span>
+                        </li>
+                        <li className="flex justify-between">
+                          <span className="text-gray-600">Tahun Terbit</span>
+                          <span className="text-gray-900 font-medium">
+                            {catalog.year}
+                          </span>
+                        </li>
+                        <li className="flex justify-between">
+                          <span className="text-gray-600">Tipe</span>
+                          <span className="text-gray-900 font-medium">
+                            {catalog.type}
+                          </span>
+                        </li>
+                        <li className="flex justify-between">
+                          <span className="text-gray-600">Genre</span>
+                          <span className="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
+                            {catalog.genre}
+                          </span>
+                        </li>
+                      </ul>
                     </div>
-                  </div>
-                )}
+                  )}
+
+                  {activeTab === "synopsis" && (
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 mb-3">
+                        Deskripsi
+                      </h3>
+                      <div className="prose max-w-none text-gray-700">
+                        <p className="whitespace-pre-line">
+                          {catalog.synopsis}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

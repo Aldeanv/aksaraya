@@ -69,7 +69,7 @@ export default function Home() {
         />
       )}
 
-      <header className="bg-white shadow-sm sticky top-0 z-30">
+      <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
@@ -169,6 +169,19 @@ export default function Home() {
                             {user.email}
                           </p>
                         </div>
+
+                        {user.role === "admin" && (
+                          <button
+                            onClick={() => {
+                              navigate("/dashboard");
+                              setDropdownOpen(false);
+                            }}
+                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                          >
+                            Dashboard
+                          </button>
+                        )}
+
                         <button
                           onClick={() => {
                             navigate("/profile");
@@ -240,7 +253,7 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="flex flex-1">
+      <div className="flex flex-1 z-10">
         <aside
           className={`fixed inset-y-0 left-0 w-64 transform ${
             mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
@@ -411,7 +424,7 @@ export default function Home() {
               </div>
             </div>
           )}
-          {totalPage >= 1 && (
+          {totalPage > 1 && (
             <div className="flex justify-center items-center gap-2 mt-6">
               <button
                 onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
