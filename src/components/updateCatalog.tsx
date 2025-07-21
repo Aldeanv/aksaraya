@@ -1,24 +1,7 @@
 import { useState } from "react";
 import { AxiosError } from "axios";
 import api from "../services/api";
-
-interface Catalog {
-  id: number;
-  coverUrl: string;
-  title: string;
-  author: string;
-  genre: string;
-  year: number;
-  synopsis: string;
-  publisher: string;
-  type: string;
-}
-
-interface UpdateCatalogProps {
-  initialData: Catalog;
-  onClose: () => void;
-  onSuccess: () => void;
-}
+import { UpdateCatalogProps } from "../types";
 
 export default function UpdateCatalog({
   initialData,

@@ -5,31 +5,7 @@ import {
   useState,
   ReactNode,
 } from "react";
-
-interface WishlistItem {
-  id: number;
-  coverUrl: string;
-  title: string;
-  author: string;
-}
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-  NIK?: string;
-  phone?: string;
-  wishlists?: WishlistItem[];
-}
-
-interface AuthContextProps {
-  user: User | null;
-  login: (user: User, token: string) => void;
-  logout: () => void;
-  refreshUser: () => Promise<User | null>;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
-}
+import {User, AuthContextProps} from '../types/index'
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
@@ -45,7 +21,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Menyimpan user ke localStorage setiap kali state user berubah
   useEffect(() => {
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));

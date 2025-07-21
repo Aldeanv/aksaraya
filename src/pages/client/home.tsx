@@ -2,14 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchCatalogs } from "../../services/catalogService";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
-interface Catalog {
-  id: number;
-  coverUrl: string;
-  title: string;
-  author: string;
-  genre: string;
-}
+import { Catalog } from "../../types";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 

@@ -1,18 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-
-interface Catalog {
-  id: number;
-  coverUrl: string;
-  title: string;
-  author: string;
-  genre: string;
-  year: number;
-  synopsis: string;
-  publisher: string;
-  type: string;
-}
+import { Catalog } from "../../types";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 

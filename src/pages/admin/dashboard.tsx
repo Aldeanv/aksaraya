@@ -5,18 +5,7 @@ import CreateCatalog from "../../components/createCatalog";
 import UpdateCatalog from "../../components/updateCatalog";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
 import Navbar from "../../components/Navbar";
-
-interface Catalog {
-  id: number;
-  coverUrl: string;
-  title: string;
-  author: string;
-  genre: string;
-  year: number;
-  synopsis: string;
-  publisher: string;
-  type: string;
-}
+import { Catalog } from "../../types";
 
 export default function DashboardAdmin() {
   const [catalogs, setCatalogs] = useState<Catalog[]>([]);

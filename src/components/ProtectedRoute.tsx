@@ -1,10 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { ProtectedRouteProps } from "../types";
 
-interface ProtectedRouteProps {
-  children: JSX.Element;
-  requiredRole?: string;
-}
 
 export default function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) {
   const { user } = useAuth();

@@ -1,9 +1,5 @@
 import api from './api';
-
-export interface LoginPayload {
-  email: string;
-  password: string;
-}
+import { LoginPayload } from '../types';
 
 export const login = async (payload: LoginPayload) => {
   const res = await api.post('/auth/login', payload);
