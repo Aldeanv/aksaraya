@@ -2,8 +2,6 @@
 
 **Aksaraya** adalah aplikasi web katalog buku yang memungkinkan pengguna untuk:
 
-![Tampilan Aksaraya](public/Tampilan%20aksaraya.jpg)
-
 - Menelusuri koleksi buku yang tersedia.
 - Menambahkan buku kedalam wishlist.
 - Melihat detail buku seperti:
@@ -15,6 +13,12 @@
   - **Tahun Terbit**
 
 Admin memiliki fitur untuk menambahkan, mengedit, dan menghapus katalog buku.
+
+![Tampilan Aksaraya](public/homepage.jpeg)
+
+![Tampilan Aksaraya](public/detail1.jpeg)
+
+![Tampilan Aksaraya](public/detail2.jpeg)
 
 ---
 
