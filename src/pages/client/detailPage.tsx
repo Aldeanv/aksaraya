@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { Catalog } from "../../types";
 import Navbar from "../../components/Navbar";
+import api from "../../services/api";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -20,9 +21,8 @@ export default function CatalogDetail() {
     const fetchCatalog = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`${BASE_URL}/catalogs/${id}`);
-        if (!response.ok) throw new Error("Catalog not found");
-        const data = await response.json();
+        const response = await api.get(`/catalogs/${id}`);
+        const data = response.data;
         setCatalog(data);
       } catch (err) {
         console.error("Failed to fetch catalog", err);
@@ -141,7 +141,7 @@ export default function CatalogDetail() {
 
   return (
     <>
-    <Navbar />
+      <Navbar />
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
