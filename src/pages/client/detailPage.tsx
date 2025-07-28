@@ -16,6 +16,23 @@ export default function CatalogDetail() {
   const [activeTab, setActiveTab] = useState("details");
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [wishlistLoading, setWishlistLoading] = useState(false);
+  const [recommendations, setRecommendations] = useState<Catalog[]>([]);
+
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/catalogs/${id}/recommendations`);
+        if (res.ok) {
+          const data = await res.json();
+          setRecommendations(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch recommendations", err);
+      }
+    };
+
+    if (id) fetchRecommendations();
+  }, [id]);
 
   useEffect(() => {
     const fetchCatalog = async () => {
@@ -212,7 +229,7 @@ export default function CatalogDetail() {
                   </nav>
                 </div>
 
-                <div className="min-h-[300px]">
+                <div className="min-h-14">
                   {activeTab === "details" && (
                     <div>
                       <h3 className="text-sm font-medium text-gray-500 mb-3">
@@ -261,6 +278,42 @@ export default function CatalogDetail() {
                   )}
                 </div>
               </div>
+            </div>
+            <div className="p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                Rekomendasi Buku
+              </h2>
+              {recommendations.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                  {recommendations.map((rec) => (
+                    <div
+                      key={rec.id}
+                      className="group cursor-pointer"
+                      onClick={() => navigate(`/catalogs/${rec.id}`)}
+                    >
+                      <div className="relative aspect-[2/3] rounded-xl overflow-hidden bg-gray-100 shadow-sm group-hover:shadow-md transition-shadow">
+                        <img
+                          src={`${BASE_URL}${rec.coverUrl}`}
+                          alt={rec.title}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
+                      <div className="mt-3">
+                        <h3 className="font-medium text-gray-900 line-clamp-2 text-sm">
+                          {rec.title}
+                        </h3>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {rec.author}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-gray-500">
+                  Tidak ada rekomendasi tersedia.
+                </p>
+              )}
             </div>
           </div>
         </div>
