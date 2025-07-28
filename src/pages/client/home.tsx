@@ -1,24 +1,26 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { fetchCatalogs } from "../../services/catalogService";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 import { Catalog } from "../../types";
+import Sidebar from "../../components/sidebar";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function Home() {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [catalogs, setCatalogs] = useState<Catalog[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState<string>("Semua");
   const [isLoading, setIsLoading] = useState(true);
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [showAllGenres, setShowAllGenres] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
-  const limit = 36;
-  const [showAllGenres, setShowAllGenres] = useState(false);
+  const limit = 48;
 
   const genres = [
     "Semua",
@@ -47,8 +49,6 @@ export default function Home() {
     "Sosial",
     "Kesehatan",
   ];
-
-  const [selectedGenre, setSelectedGenre] = useState<string>("Semua");
   const visibleGenres = showAllGenres ? genres : genres.slice(0, 8);
 
   useEffect(() => {
@@ -97,8 +97,8 @@ export default function Home() {
                 <svg
                   className="h-6 w-6"
                   fill="none"
-                  viewBox="0 0 24 24"
                   stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
                   <path
                     strokeLinecap="round"
@@ -186,25 +186,23 @@ export default function Home() {
                             {user.email}
                           </p>
                         </div>
-
                         {user.role === "admin" && (
                           <button
                             onClick={() => {
                               navigate("/dashboard");
                               setDropdownOpen(false);
                             }}
-                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                           >
                             Dashboard
                           </button>
                         )}
-
                         <button
                           onClick={() => {
                             navigate("/profile");
                             setDropdownOpen(false);
                           }}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                         >
                           Profil Saya
                         </button>
@@ -214,7 +212,7 @@ export default function Home() {
                             navigate("/login");
                             setDropdownOpen(false);
                           }}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                         >
                           Keluar
                         </button>
@@ -226,13 +224,13 @@ export default function Home() {
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => navigate("/login")}
-                    className="hidden sm:block px-3 sm:px-4 py-1.5 sm:py-2 text-sm text-orange-600 hover:text-white border border-orange-600 rounded-full hover:bg-orange-600 transition-colors"
+                    className="hidden sm:block px-3 sm:px-4 py-1.5 text-sm text-orange-600 hover:text-white border border-orange-600 rounded-full hover:bg-orange-600"
                   >
                     Masuk
                   </button>
                   <button
                     onClick={() => navigate("/register")}
-                    className="px-3 sm:px-4 py-1.5 sm:py-2 text-sm bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors"
+                    className="px-3 sm:px-4 py-1.5 text-sm bg-orange-600 text-white rounded-full hover:bg-orange-700"
                   >
                     Daftar
                   </button>
@@ -271,85 +269,16 @@ export default function Home() {
       </header>
 
       <div className="flex flex-1 z-60">
-        <aside
-          className={`fixed inset-y-0 left-0 w-64 transform ${
-            mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:translate-x-0 lg:static z-40 bg-white shadow-lg`}
-        >
-          <div className="h-full flex flex-col">
-            <div className="border-b border-gray-200 flex items-center justify-between">
-              <button
-                className="lg:hidden p-1 rounded-md hover:bg-gray-100"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <svg
-                  className="h-5 w-5 text-gray-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-            <nav className="flex-1 overflow-y-auto p-4">
-              <div className="mb-6">
-                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-                  Kategori
-                </h3>
-                <ul className="space-y-1">
-                  {visibleGenres.map((genre) => (
-                    <li key={genre}>
-                      <button
-                        onClick={() => {
-                          setSelectedGenre(genre);
-                          setMobileMenuOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg flex items-center ${
-                          selectedGenre === genre
-                            ? "bg-orange-50 text-orange-700 font-medium"
-                            : "text-gray-700 hover:bg-gray-50"
-                        }`}
-                      >
-                        <span>{genre}</span>
-                        {selectedGenre === genre && (
-                          <svg
-                            className="ml-auto h-4 w-4 text-orange-500"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                        )}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-3">
-                  <button
-                    onClick={() => setShowAllGenres(!showAllGenres)}
-                    className="text-sm text-orange-600 hover:underline focus:outline-none"
-                  >
-                    {showAllGenres
-                      ? "Sembunyikan Kategori"
-                      : "Tampilkan Semua Kategori"}
-                  </button>
-                </div>
-              </div>
-            </nav>
-          </div>
-        </aside>
+        <Sidebar
+          mobileMenuOpen={mobileMenuOpen}
+          setMobileMenuOpen={setMobileMenuOpen}
+          selectedGenre={selectedGenre}
+          setSelectedGenre={setSelectedGenre}
+          genres={genres}
+          visibleGenres={visibleGenres}
+          showAllGenres={showAllGenres}
+          setShowAllGenres={setShowAllGenres}
+        />
 
         <main className="flex-1 p-3 sm:p-4 md:p-6 max-w-screen-xl mx-auto overflow-hidden">
           <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
@@ -376,9 +305,9 @@ export default function Home() {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
               {[...Array(12)].map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="bg-gray-200 rounded-lg aspect-[2/3] w-full mb-2"></div>
-                  <div className="h-3 bg-gray-200 rounded mb-1 w-3/4"></div>
-                  <div className="h-2 bg-gray-200 rounded w-1/2"></div>
+                  <div className="bg-gray-200 rounded-lg aspect-[2/3] w-full mb-2" />
+                  <div className="h-3 bg-gray-200 rounded mb-1 w-3/4" />
+                  <div className="h-2 bg-gray-200 rounded w-1/2" />
                 </div>
               ))}
             </div>
