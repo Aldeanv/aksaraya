@@ -36,7 +36,7 @@ export default function Sidebar({
             </svg>
           </button>
         </div>
-        <nav className="flex-1 p-4">
+        <nav className="flex-1 p-4 overflow-y-auto">
           <div className="mb-6">
             <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 lg:mt-0 mt-8">
               Kategori
@@ -78,11 +78,43 @@ export default function Sidebar({
             <div className="mt-3">
               <button
                 onClick={() => setShowAllGenres(!showAllGenres)}
-                className="text-sm text-orange-600 hover:underline focus:outline-none"
+                className="w-full py-2.5 px-4 text-sm font-medium text-orange-600 hover:text-orange-700 hover:bg-orange-50 transition-colors duration-200 flex items-center justify-center rounded-md"
               >
-                {showAllGenres
-                  ? "Sembunyikan Kategori"
-                  : "Tampilkan Semua Kategori"}
+                {showAllGenres ? (
+                  <>
+                    <svg
+                      className="mr-2 h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 15l7-7 7 7"
+                      />
+                    </svg>
+                    Tampilkan Sedikit
+                  </>
+                ) : (
+                  <>
+                    <svg
+                      className="mr-2 h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                    Tampilkan Semua ({visibleGenres.length})
+                  </>
+                )}
               </button>
             </div>
           </div>
