@@ -12,11 +12,6 @@ export default function Profile() {
   const [profileUser, setProfileUser] = useState(user);
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-      return;
-    }
-
     const refreshIfNeeded = async () => {
       if (location.state?.refreshed) {
         const latestUser = await refreshUser();

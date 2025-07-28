@@ -23,7 +23,14 @@ export default function AppRoutes() {
           }
         />
         <Route path="/catalogs/:id" element={<CatalogDetail />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
