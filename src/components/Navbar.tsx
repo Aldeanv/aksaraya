@@ -17,7 +17,7 @@ export default function Navbar() {
         />
       )}
       <header>
-        <div className="container mx-auto px-4 sm:px-6">
+        <div className="mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <h1

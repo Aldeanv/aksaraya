@@ -67,3 +67,14 @@ export interface CatalogSearchParams {
   sortBy?: string;
   sortOrder?: "asc" | "desc";
 }
+
+export interface SidebarProps {
+  mobileMenuOpen: boolean;
+  setMobileMenuOpen: (value: boolean) => void;
+  selectedGenre: string;
+  setSelectedGenre: (value: string) => void;
+  genres: string[];
+  visibleGenres: string[];
+  showAllGenres: boolean;
+  setShowAllGenres: (value: boolean) => void;
+}

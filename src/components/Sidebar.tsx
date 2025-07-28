@@ -1,13 +1,4 @@
-interface SidebarProps {
-  mobileMenuOpen: boolean;
-  setMobileMenuOpen: (value: boolean) => void;
-  selectedGenre: string;
-  setSelectedGenre: (value: string) => void;
-  genres: string[];
-  visibleGenres: string[];
-  showAllGenres: boolean;
-  setShowAllGenres: (value: boolean) => void;
-}
+import { SidebarProps } from "../types";
 
 export default function Sidebar({
   mobileMenuOpen,
@@ -45,9 +36,9 @@ export default function Sidebar({
             </svg>
           </button>
         </div>
-        <nav className="flex-1 overflow-y-auto p-4">
+        <nav className="flex-1 p-4">
           <div className="mb-6">
-            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 lg:mt-0 mt-8">
               Kategori
             </h3>
             <ul className="space-y-1">

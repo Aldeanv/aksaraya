@@ -86,12 +86,12 @@ export default function Home() {
         />
       )}
 
-      <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 sm:px-6">
+      <header className="shadow-sm sticky top-0 z-50">
+        <div className="w-full bg-white mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <button
-                onClick={() => setMobileMenuOpen(true)}
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="mr-2 p-2 rounded-md text-gray-700 hover:text-orange-600 hover:bg-gray-100 lg:hidden"
               >
                 <svg
