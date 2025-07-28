@@ -14,12 +14,7 @@
 
 Admin memiliki fitur untuk menambahkan, mengedit, dan menghapus katalog buku.
 
-![Tampilan Aksaraya](public/homepage.jpeg)
-
-![Tampilan Aksaraya](public/detail1.jpeg)
-
-![Tampilan Aksaraya](public/detail2.jpeg)
-
+![Tampilan Aksaraya](public/mockup.png)
 ---
 
 ## 🚀 Fitur Utama
