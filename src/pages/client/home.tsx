@@ -18,6 +18,7 @@ export default function Home() {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const limit = 36;
+  const [showAllGenres, setShowAllGenres] = useState(false);
 
   const genres = [
     "Semua",
@@ -48,6 +49,7 @@ export default function Home() {
   ];
 
   const [selectedGenre, setSelectedGenre] = useState<string>("Semua");
+  const visibleGenres = showAllGenres ? genres : genres.slice(0, 8);
 
   useEffect(() => {
     setPage(1);
@@ -268,7 +270,7 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="flex flex-1 z-10">
+      <div className="flex flex-1 z-60">
         <aside
           className={`fixed inset-y-0 left-0 w-64 transform ${
             mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
@@ -301,7 +303,7 @@ export default function Home() {
                   Kategori
                 </h3>
                 <ul className="space-y-1">
-                  {genres.map((genre) => (
+                  {visibleGenres.map((genre) => (
                     <li key={genre}>
                       <button
                         onClick={() => {
@@ -334,6 +336,16 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
+                <div className="mt-3">
+                  <button
+                    onClick={() => setShowAllGenres(!showAllGenres)}
+                    className="text-sm text-orange-600 hover:underline focus:outline-none"
+                  >
+                    {showAllGenres
+                      ? "Sembunyikan Kategori"
+                      : "Tampilkan Semua Kategori"}
+                  </button>
+                </div>
               </div>
             </nav>
           </div>
