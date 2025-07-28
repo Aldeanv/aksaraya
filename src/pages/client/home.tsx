@@ -4,6 +4,7 @@ import { fetchCatalogs } from "../../services/catalogService";
 import { useAuth } from "../../context/AuthContext";
 import { Catalog } from "../../types";
 import Sidebar from "../../components/sidebar";
+import Pagination from "../../components/Pagination";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -381,36 +382,11 @@ export default function Home() {
             </div>
           )}
           {totalPage > 1 && (
-            <div className="flex justify-center items-center gap-2 mt-6">
-              <button
-                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                disabled={page === 1}
-                className={`px-3 py-1 text-sm rounded-md ${
-                  page === 1
-                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
-                }`}
-              >
-                Sebelumnya
-              </button>
-
-              <span className="text-sm text-gray-600">
-                Halaman <strong>{page}</strong> dari{" "}
-                <strong>{totalPage}</strong>
-              </span>
-
-              <button
-                onClick={() => setPage((prev) => Math.min(prev + 1, totalPage))}
-                disabled={page === totalPage}
-                className={`px-3 py-1 text-sm rounded-md ${
-                  page === totalPage
-                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
-                }`}
-              >
-                Selanjutnya
-              </button>
-            </div>
+            <Pagination
+              page={page}
+              totalPage={totalPage}
+              onPageChange={(newPage) => setPage(newPage)}
+            />
           )}
         </main>
       </div>

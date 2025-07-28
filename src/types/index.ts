@@ -78,3 +78,9 @@ export interface SidebarProps {
   showAllGenres: boolean;
   setShowAllGenres: (value: boolean) => void;
 }
+
+export interface PaginationProps {
+  page: number;
+  totalPage: number;
+  onPageChange: (page: number) => void;
+}
