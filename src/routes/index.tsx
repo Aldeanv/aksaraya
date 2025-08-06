@@ -6,6 +6,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import CatalogDetail from "../pages/client/detailPage";
 import ProfilePage from "../pages/client/profilePage";
 import RegisterPage from "../pages/registerPage";
+import NotFoundPage from "../pages/NotFoundPage";
 
 export default function AppRoutes() {
   return (
@@ -31,6 +32,7 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
