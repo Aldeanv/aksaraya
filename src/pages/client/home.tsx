@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchCatalogs } from "../../services/catalogService";
 import { useAuth } from "../../context/AuthContext";
 import { Catalog } from "../../types";
-import Sidebar from "../../components/sidebar";
+import Sidebar from "../../components/Sidebar";
 import Pagination from "../../components/Pagination";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
